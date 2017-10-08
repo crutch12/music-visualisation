@@ -1,0 +1,46 @@
+html, body {
+	margin: 0;
+	height: 100%;
+}
+
+#thefile {
+  position: fixed;
+  bottom: 10px;
+  left: 10;
+  z-index: 5;
+}
+
+#msg {
+  position: fixed;
+  bottom: 10px;
+}
+
+#WebGL-output {
+	position: fixed;
+  	z-index: -5;
+}
+
+#left-menu {
+	left: 0px;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    outline: 1px solid;
+    background: white;
+}
+
+#right-menu {
+	right: 0px;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    outline: 1px solid;
+    background: white;
+}
+
+audio {
+  position: fixed;
+  margin: 0 25%;
+  width: 50%;
+  top: 10px;
+}
