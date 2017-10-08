@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>	
+	<head>
+		<title>Music Visualisation</title>
+		<script type="text/javascript" src="libs/jquery-1.9.0.js"></script>
+	</head>
+	<body>
+		<div class="joke"></div>
+		<script>
+			async function getData(url) {
+			  const dataset = await $.ajax(url);
+			  console.log(dataset.value)
+			  // document.querySelector('.joke').innerHTML = dataset.value.joke;
+			}
+
+			getData('http://zaycev.net/search.html?query_search=30+seconds+to+mars');
+		</script>
+
+	</body>
+</html>
+
