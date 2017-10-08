@@ -30,7 +30,7 @@
 	var cubesCount = 16;
 	for (var i = 0; i < cubesCount; i++) {
 		var cubeGeometry = new THREE.CubeGeometry(0.5,1,1);
-		var cubeMaterial = new THREE.MeshPhongMaterial(
+		var cubeMaterial = new THREE.MeshLambertMaterial(
 			{color: 0xffffff});
 		var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
 		cube.name = 'cube';
@@ -42,17 +42,23 @@
 		cubes.push(cube);
 	} 
 	
-	var spotLight = new THREE.SpotLight( 0xffffff );
-	spotLight.name = 'spotLight';
-	spotLight.position.set(0, 25, 25);
-	spotLight.castShadow = true;
-	scene.add(spotLight);
+	var spotLight1 = new THREE.SpotLight( 0xffffff );
+	spotLight1.name = 'spotLight';
+	spotLight1.position.set(0, 25, 25);
+	spotLight1.castShadow = true;
+	scene.add(spotLight1);
 
-	var spotLight = new THREE.SpotLight( 0xfffddd );
-	spotLight.name = 'spotLight';
-	spotLight.position.set(-25, -25, -25);
-	spotLight.castShadow = true;
-	scene.add(spotLight);
+	var spotLight2 = new THREE.SpotLight( 0xfffddd );
+	spotLight2.name = 'spotLight';
+	spotLight2.position.set(-25, -25, -25);
+	spotLight2.castShadow = true;
+	scene.add(spotLight2);
+
+	var spotLight3 = new THREE.SpotLight( 0xfffddd );
+	spotLight3.name = 'spotLight';
+	spotLight3.position.set(25, 0, 25);
+	spotLight3.castShadow = true;
+	scene.add(spotLight3);
 	
 	camera.position.x = 0;
 	camera.position.y = 0;
@@ -188,6 +194,25 @@
 		camera.position.z = -25;
 		camera.rotation = new THREE.Vector3(0, 0, 0);
 		camera.lookAt(scene.position);
+	  } else if (e.keyCode === 53) {
+	  	for (i = 0; i < cubes.length; i++) {
+	  		var v = (360 / cubes.length) * i;
+	  		var distanceFromCenter = 5;
+			var angleInDegrees = v;
+			var angleAsRadians = (angleInDegrees* Math.PI) / 180.0;
+			var centerX = 0;
+			var centerY = 0;
+
+			var x = centerX +  Math.cos(angleAsRadians) * distanceFromCenter;
+			var y = centerY + Math.sin(angleAsRadians) * distanceFromCenter;
+			cubes[i].position.x = x;
+			cubes[i].position.z = y;
+	  	}
+	  } else if (e.keyCode === 54) {
+	  	for (i = 0; i < cubes.length; i++) {
+			cubes[i].position.x = i - cubes.length / 2;
+			cubes[i].position.z = 0;
+	  	}
 	  }
 	})
 // });
