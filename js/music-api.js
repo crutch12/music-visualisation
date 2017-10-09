@@ -2,7 +2,7 @@ var musicAPI = {};
 var cors = 'http://cors-proxy.htmldriven.com/?url='
 $(function () {
   async function getTracks(search, page = 1) {
-    var data = await $.get(`${cors}http://go.mail.ru/zaycev?q=${search}&page=${page}`)
+    var data = await $.get(`${cors}https://go.mail.ru/zaycev?q=${search}&page=${page}`)
     data = data.body
     var dom = new DOMParser().parseFromString(data, 'text/html');
 
