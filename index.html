@@ -2,29 +2,30 @@
 <html>	
 	<head>
 		<title>Music Visualisation</title>
-		<script type="text/javascript" src="js/lib/three.js"></script>
+		<script type="text/javascript" src="libs/three.js"></script>
 		<script type="text/javascript" src="libs/jquery-1.9.0.js"></script>
 		<script type="text/javascript" src="libs/stats.js"></script>
 		<script type="text/javascript" src="libs/dat.gui.js"></script>
         <script type="text/javascript" src="libs/FlyControls.js"></script>
-	    <script  src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
+        <script type="text/javascript" src="js/music-api.js"></script>
 	    <script  src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.4/lodash.js"></script>
 	    <script  src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
-		
+
 		<link rel="stylesheet" href="css/style.css">
 	</head>
 	<body>
 		<div id="app">
-			<div v-if="seen" id="left-menu">
-				<p>{{ message }}</p>
-				<p>{{ message }}</p>
-				<p>{{ message }}</p>
-				<p>{{ message }}</p>
-				<p>{{ message }}</p>
-				<p>{{ message }}</p>
-				<p>{{ message }}</p>
+			<div id="left-menu">
+		  	<input v-model="message" v-on:keyup.enter="getMusic">
+				<ul id="track-list">
+				  <div v-for="track in tracks" v-on:click="click(track)">
+				  	<button>
+					    {{ track.title }}
+				  	</button>
+				  </div>
+				</ul>
 			</div>			
-			<div v-if="seen" id="right-menu">
+<!-- 			<div v-if="seen" id="right-menu">
 				<p>{{ message }}</p>
 				<p>{{ message }}</p>
 				<p>{{ message }}</p>
@@ -32,7 +33,7 @@
 				<p>{{ message }}</p>
 				<p>{{ message }}</p>
 				<p>{{ message }}</p>
-			</div>
+			</div> -->
 			<!-- <div v-if="seen" id="Stats-output"></div> -->
 	  		<input type="file" id="thefile" accept="audio/*" />
 			<audio id="audio" controls></audio>

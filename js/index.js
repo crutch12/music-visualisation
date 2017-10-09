@@ -6,10 +6,26 @@
 	  data: {
 	    message: 'Hello Vue!',
 	    seen: true,
+	    tracks: null,
+	    message: 'Oxxxymiron',
+	  },
+	  methods: {
+	  	getMusic: async function() {
+	  		console.log('getMusic')
+	  		if (this.message) {
+		  		this.tracks = await musicAPI.getTracks(this.message);
+	  		} else {
+	  			this.tracks = null;
+	  		}
+	  	},
+	  	click: function(element) {
+	  		audio.src = element.url;
+	  		onMusicSet();
+	  	},
 	  }
 	})
 
-	window.addEventListener( 'resize', onWindowResize, false );
+	window.addEventListener('resize', onWindowResize, false);
 
 	var stats = initStats();
 	var clock = new THREE.Clock();
@@ -65,22 +81,21 @@
 	camera.position.z = 32;
 	camera.lookAt(scene.position);
 	
-    var flyControls = new THREE.FlyControls(camera);
-    flyControls.movementSpeed = 25;
-    flyControls.domElement = document.querySelector("#WebGL-output");
-    flyControls.rollSpeed = Math.PI / 5;
-    flyControls.autoForward = false;
-    flyControls.dragToLook = true;
+    // var flyControls = new THREE.FlyControls(camera);
+    // flyControls.movementSpeed = 25;
+    // flyControls.domElement = document.querySelector("#WebGL-output");
+    // flyControls.rollSpeed = Math.PI / 5;
+    // flyControls.autoForward = false;
+    // flyControls.dragToLook = true;
 
 
 	var file = document.getElementById("thefile");
 	var audio = document.getElementById("audio");
+	audio.crossOrigin = "anonymous";
 	var context = new AudioContext();
 	var src;
 
-	file.onchange = function() {
-		var files = this.files;
-		audio.src = URL.createObjectURL(files[0]);
+	onMusicSet = function() {
 		audio.load();
 		audio.play();
 		src = src || context.createMediaElementSource(audio);
@@ -136,7 +151,7 @@
 	function render() {
 		stats.update();
 		var delta = clock.getDelta();
-		flyControls.update(delta);
+		// flyControls.update(delta);
 
 		requestAnimationFrame(render);
 		renderer.render(scene, camera);
@@ -153,66 +168,63 @@
 	}
 
 	function onWindowResize(){
-
 	    camera.aspect = window.innerWidth / window.innerHeight;
 	    camera.updateProjectionMatrix();
-
-	    renderer.setSize( window.innerWidth, window.innerHeight );
-
+	    renderer.setSize(window.innerWidth, window.innerHeight);
 	}
 
-	$(window).keypress(function (e) {
-	  if (e.keyCode === 0 || e.keyCode === 32) {
-	    e.preventDefault()
-		camera.position.x = 0;
-		camera.position.y = 0;
-		camera.position.z = 32;
-		camera.rotation = new THREE.Vector3(0, 0, 0);
-		camera.lookAt(scene.position);
-		app.$data.seen = !app.$data.seen
-	  } else if (e.keyCode === 49) {
-		camera.position.x = 25;
-		camera.position.y = 25;
-		camera.position.z = 25;
-		camera.rotation = new THREE.Vector3(0, 0, 0);
-		camera.lookAt(scene.position);
-	  } else if (e.keyCode === 50) {
-		camera.position.x = -25;
-		camera.position.y = 25;
-		camera.position.z = 25;
-		camera.rotation = new THREE.Vector3(0, 0, 0);
-		camera.lookAt(scene.position);
-	  } else if (e.keyCode === 51) {
-		camera.position.x = 25;
-		camera.position.y = -25;
-		camera.position.z = 25;
-		camera.rotation = new THREE.Vector3(0, 0, 0);
-		camera.lookAt(scene.position);
-	  } else if (e.keyCode === 52) {
-		camera.position.x = 25;
-		camera.position.y = 25;
-		camera.position.z = -25;
-		camera.rotation = new THREE.Vector3(0, 0, 0);
-		camera.lookAt(scene.position);
-	  } else if (e.keyCode === 53) {
-	  	for (i = 0; i < cubes.length; i++) {
-	  		var v = (360 / cubes.length) * i;
-	  		var distanceFromCenter = 5;
-			var angleInDegrees = v;
-			var angleAsRadians = (angleInDegrees* Math.PI) / 180.0;
-			var centerX = 0;
-			var centerY = 0;
+	// $(window).keypress(function (e) {
+	//   if (e.keyCode === 0 || e.keyCode === 32) {
+	//     e.preventDefault()
+	// 	camera.position.x = 0;
+	// 	camera.position.y = 0;
+	// 	camera.position.z = 32;
+	// 	camera.rotation = new THREE.Vector3(0, 0, 0);
+	// 	camera.lookAt(scene.position);
+	// 	app.$data.seen = !app.$data.seen
+	//   } else if (e.keyCode === 49) {
+	// 	camera.position.x = 25;
+	// 	camera.position.y = 25;
+	// 	camera.position.z = 25;
+	// 	camera.rotation = new THREE.Vector3(0, 0, 0);
+	// 	camera.lookAt(scene.position);
+	//   } else if (e.keyCode === 50) {
+	// 	camera.position.x = -25;
+	// 	camera.position.y = 25;
+	// 	camera.position.z = 25;
+	// 	camera.rotation = new THREE.Vector3(0, 0, 0);
+	// 	camera.lookAt(scene.position);
+	//   } else if (e.keyCode === 51) {
+	// 	camera.position.x = 25;
+	// 	camera.position.y = -25;
+	// 	camera.position.z = 25;
+	// 	camera.rotation = new THREE.Vector3(0, 0, 0);
+	// 	camera.lookAt(scene.position);
+	//   } else if (e.keyCode === 52) {
+	// 	camera.position.x = 25;
+	// 	camera.position.y = 25;
+	// 	camera.position.z = -25;
+	// 	camera.rotation = new THREE.Vector3(0, 0, 0);
+	// 	camera.lookAt(scene.position);
+	//   } else if (e.keyCode === 53) {
+	//   	for (i = 0; i < cubes.length; i++) {
+	//   		var v = (360 / cubes.length) * i;
+	//   		var distanceFromCenter = 5;
+	// 		var angleInDegrees = v;
+	// 		var angleAsRadians = (angleInDegrees* Math.PI) / 180.0;
+	// 		var centerX = 0;
+	// 		var centerY = 0;
 
-			var x = centerX +  Math.cos(angleAsRadians) * distanceFromCenter;
-			var y = centerY + Math.sin(angleAsRadians) * distanceFromCenter;
-			cubes[i].position.x = x;
-			cubes[i].position.z = y;
-	  	}
-	  } else if (e.keyCode === 54) {
-	  	for (i = 0; i < cubes.length; i++) {
-			cubes[i].position.x = i - cubes.length / 2;
-			cubes[i].position.z = 0;
-	  	}
-	  }
-	})
+	// 		var x = centerX +  Math.cos(angleAsRadians) * distanceFromCenter;
+	// 		var y = centerY + Math.sin(angleAsRadians) * distanceFromCenter;
+	// 		cubes[i].position.x = x;
+	// 		cubes[i].position.z = y;
+	//   	}
+	//   } else if (e.keyCode === 54) {
+	//   	for (i = 0; i < cubes.length; i++) {
+	// 		cubes[i].position.x = i - cubes.length / 2;
+	// 		cubes[i].position.z = 0;
+	//   	}
+	//   }
+	// })
 // });
