@@ -21,10 +21,8 @@
 	  		audio.src = element.url;
 	  		onMusicSet();
 	  	},
-	  }
-	})
-
-	window.addEventListener('resize', onWindowResize, false);
+	  	mounted: function () {
+		  window.addEventListener('resize', onWindowResize, false);
 
 	var stats = initStats();
 	var clock = new THREE.Clock();
@@ -226,4 +224,9 @@
 	//   	}
 	//   }
 	// })
+		}
+	  }
+	})
+
+	
 // });
